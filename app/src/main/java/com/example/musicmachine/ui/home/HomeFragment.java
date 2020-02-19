@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener
         imageButtonSpeak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+Toast.makeText(getContext(), "clicked",Toast.LENGTH_SHORT);
                 Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
                 intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getClass().getPackage().getName());

@@ -6,4 +6,7 @@
     <string name="listen">LISTEN</string>
     <string name="lyrics">lyrics</string>
     <string name="button">Button</string>
+    <string name="todo">TODO</string>
+    <string name="speak">Speak</string>
+    <string name="textview">TextView</string>
 </resources>
