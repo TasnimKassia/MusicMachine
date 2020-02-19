@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -13,71 +15,95 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.musicmachine.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+
 
 public class DashboardFragment extends Fragment {
 
     private DashboardViewModel dashboardViewModel;
-    private TextView textViewHistory;
 
-    private DocumentReference mDocRef = FirebaseFirestore.getInstance().document("historyCollection/historyDoc");
-
+ListView listViewHistory;
+    ArrayList<String> arrayList;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference conditionRef = mRootRef.child("history");
-
+    DatabaseReference mHistoryRef = mRootRef.child("history");
+    ArrayAdapter arrayAdapter;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         dashboardViewModel =
                 ViewModelProviders.of(this).get(DashboardViewModel.class);
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        final TextView textView = view.findViewById(R.id.text_dashboard);
+
+     arrayList = new ArrayList<>();
+
         dashboardViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+
             }
         });
 
+        listViewHistory = view.findViewById(R.id.listViewHistory);
 
-        textViewHistory = view.findViewById(R.id.textViewHistory);
+//        ArrayList<String> arrayList = new ArrayList<>();
+//        arrayList.add("Song name1");
+//        arrayList.add("Song name1");
+//        arrayList.add("Song name1");
+//        arrayList.add("Song name1");
+//        arrayList.add("Song name1");
+//        arrayList.add("Song name1");
+//        ArrayAdapter arrayAdapter = new ArrayAdapter(view.getContext(),android.R.layout.simple_list_item_1, arrayList);
+//listViewHistory.setAdapter(arrayAdapter);
          return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-//
-//
-//
-//        mDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                City city = documentSnapshot.toObject(City.class);
-//            }
-//        });
-//
-//
-//        conditionRef.addValueEventListener(new ValueEventListener()
-//        {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot)
-//            {
-//                String s =  dataSnapshot.getValue(String.class);
-//                textViewHistory.setText(s);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError)
-//            {
-//
-//            }
-//        });
+
+        mHistoryRef.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                arrayList.clear();
+                HashMap<String, Object> hashMap = new HashMap<>();
+                for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
+                    hashMap.put(childSnapshot.getKey(), childSnapshot.getValue());
+                    arrayList.add(childSnapshot.getValue().toString());
+                }
+                Collections.reverse(arrayList);
+
+
+//                ArrayList<String> arrayList = new ArrayList<>();
+//                arrayList.add("Song name1");
+//                arrayList.add("Song name1");
+//                arrayList.add("Song name1");
+//                arrayList.add("Song name1");
+//                arrayList.add("Song name1");
+//                arrayList.add("Song name1");
+                arrayAdapter = new ArrayAdapter(getContext(),android.R.layout.simple_list_item_1, arrayList);
+                listViewHistory.setAdapter(arrayAdapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
+
+            }
+        });
+
+
     }
 
 }
