@@ -1,6 +1,8 @@
 package com.example.musicmachine;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -25,6 +27,20 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+
     }
+
+//    public void setTextLyrics(){
+////        View view = findViewById(id);
+////        TextView textView =  (TextView) view;
+//        LyricsSearch lyricsSearch = new LyricsSearch();
+//        try{
+////            textView.setText(lyricsSearch.MatchByLyrics("when I find myself in times of trouble mother mary comes to me singing words").get(0).toString());
+//            System.out.print(lyricsSearch.MatchByLyrics("when I find myself in times of trouble mother mary comes to me singing words").get(0).toString());
+//        }catch (Exception e){}
+//
+//    }
+
 
 }
