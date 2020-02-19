@@ -19,6 +19,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.musicmachine.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +41,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener
     private ImageButton imageButtonSpeak;
     private TextView textViewResult;
 
+    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference conditionRef = mRootRef.child("history");
+
+    private DocumentReference mDocRef = FirebaseFirestore.getInstance().document("historyCollection/historyDoc");
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -45,6 +57,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener
                 textView.setText(s);
             }
         });
+
 
 
         imageButtonSpeak = view.findViewById(R.id.imageButtonSpeak);
@@ -69,7 +82,29 @@ public class HomeFragment extends Fragment implements View.OnClickListener
         return view;
     }
 
-    
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        conditionRef.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+               String s =  dataSnapshot.getValue(String.class);
+               // set text to edit text!!!!!
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+
+            }
+        });
+    }
+
+
 
     @Override
     public void onClick(View v) {
