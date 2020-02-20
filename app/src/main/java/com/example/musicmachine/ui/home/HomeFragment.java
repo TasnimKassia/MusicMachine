@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.musicmachine.LyricsSearch;
 import com.example.musicmachine.R;
 
 import java.util.ArrayList;
@@ -53,7 +55,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener
         imageButtonSpeak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-Toast.makeText(getContext(), "clicked",Toast.LENGTH_SHORT);
+
                 Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
                 intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getClass().getPackage().getName());
@@ -117,12 +119,32 @@ Toast.makeText(getContext(), "clicked",Toast.LENGTH_SHORT);
                 {
                     String searchQuery = textMatchList.get(0);
 
-                    textViewResult.setText(searchQuery);
+//                    textViewResult.setText(searchQuery);
+                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+                    StrictMode.setThreadPolicy(policy);
+                    LyricsSearch ls = new LyricsSearch();
+                    try {
+                        String res = ls.MatchSongByLyrics("when i find myself in times of trouble");
+                        textViewResult.setText(res);
+
+                    }catch(Exception e){
+                        Toast toast = Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG);
+                        toast.show();
+                    }
 
                 }
                 // Result code for various error.
             }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public static void main(String[] args) {
+        LyricsSearch ls = new LyricsSearch();
+        try {
+            String res = ls.MatchSongByLyrics("when i find myself in times of trouble");
+            System.out.print(res);
+        }catch(Exception e){}
     }
 
 }
