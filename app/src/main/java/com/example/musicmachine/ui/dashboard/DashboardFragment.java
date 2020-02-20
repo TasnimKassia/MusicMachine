@@ -107,7 +107,7 @@ ListView listViewHistory;
                 }
                 Collections.reverse(arrayList);
 
-            if(getContext()!=null && arrayAdapter != null){
+            if(getContext()!=null){
                 arrayAdapter = new ArrayAdapter(getContext(),android.R.layout.simple_list_item_1, arrayList);
                 listViewHistory.setAdapter(arrayAdapter);}
 
