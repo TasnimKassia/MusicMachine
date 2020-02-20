@@ -128,9 +128,8 @@ public class HomeFragment extends Fragment
                     StrictMode.setThreadPolicy(policy);
                     LyricsSearch ls = new LyricsSearch();
                     try {
-                        String res = ls.MatchSongByLyrics("when i find myself in times of trouble");
+                        String res = ls.MatchSongByLyrics(searchQuery);
                         textViewResult.setText(res);
-
                     }catch(Exception e){
                         Toast toast = Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG);
                         toast.show();
