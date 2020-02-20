@@ -140,8 +140,14 @@ public class HomeFragment extends Fragment
 
     public void sendTitleToDB(String s) {
         long id = System.currentTimeMillis() / 1000L;
-       Toast.makeText(getContext(), "dfbgfsf", Toast.LENGTH_SHORT);
-        mHistoryRef.child(id+"").setValue(s.substring(7,s.indexOf("Lyrics:")));
+       Toast.makeText(getContext(), s, Toast.LENGTH_LONG);
+       if(s.indexOf("Lyrics") >0)
+       {
+           mHistoryRef.child(id + "").setValue(s.substring(7, s.indexOf("Lyrics:")).replace("\n", ""));
+       }
+       else {
+           mHistoryRef.child(id + "").setValue(s.substring(7).replace("\n", ""));
+       }
 
     }
     public static void main(String[] args) {
