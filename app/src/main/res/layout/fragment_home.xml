@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_homePage">
+    android:background="@color/background">
+
 
     <ImageButton
         android:id="@+id/imageButtonSpeak"
         android:layout_width="150dp"
         android:layout_height="139dp"
         android:layout_weight="0.06"
-        android:background="@null"
+        android:background="@color/background"
         android:contentDescription="@string/speak"
         android:src="@drawable/ic_btn_speak_now"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
@@ -23,6 +25,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="357dp"
         android:layout_height="484dp"
+        android:background="@color/background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -36,6 +39,8 @@
                 android:id="@+id/textViewResult"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/background"
+                android:textSize="24sp"
                 tools:text="@string/textview" />
         </LinearLayout>
     </ScrollView>
