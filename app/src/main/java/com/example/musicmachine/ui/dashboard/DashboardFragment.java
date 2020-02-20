@@ -81,7 +81,7 @@ ListView listViewHistory;
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
-        Toast.makeText(getActivity(), "Song Name: " + arrayList.get(position), Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getActivity(), "Song Name: " + arrayList.get(position), Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(Intent.ACTION_SEARCH);
         intent.setPackage("com.google.android.youtube");
