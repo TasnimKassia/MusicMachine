@@ -13,27 +13,32 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.musicmachine.LyricsSearch;
 import com.example.musicmachine.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-public class HomeFragment extends Fragment implements View.OnClickListener
+public class HomeFragment extends Fragment
 {
 
     private HomeViewModel homeViewModel;
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
     private ImageButton imageButtonSpeak;
     private TextView textViewResult;
+
+    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference mHistoryRef = mRootRef.child("history");
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +51,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener
 
             }
         });
+
 
 
         imageButtonSpeak = view.findViewById(R.id.imageButtonSpeak);
@@ -70,24 +76,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener
         return view;
     }
 
-    
+
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.imageButtonSpeak:
+    public void onStart() {
+        super.onStart();
 
-                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
-                intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getClass().getPackage().getName());
-
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
-
-                startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
-
-                break;
-        }
     }
+
+
+
 
     public void checkVoiceRecognition()
     {
@@ -127,6 +125,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener
                     try {
                         String res = ls.MatchSongByLyrics(searchQuery);
                         textViewResult.setText(res);
+                        sendTitleToDB(res);
                     }catch(Exception e){
                         Toast toast = Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG);
                         toast.show();
@@ -138,6 +137,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void sendTitleToDB(String s) {
+        long id = System.currentTimeMillis() / 1000L;
+       Toast.makeText(getContext(), s, Toast.LENGTH_LONG);
+       if(s.indexOf("Lyrics") >0)
+       {
+           mHistoryRef.child(id + "").setValue(s.substring(7, s.indexOf("Lyrics:")).replace("\n", ""));
+       }
+       else {
+           mHistoryRef.child(id + "").setValue(s.substring(7).replace("\n", ""));
+       }
+
+    }
     public static void main(String[] args) {
         LyricsSearch ls = new LyricsSearch();
         try {
