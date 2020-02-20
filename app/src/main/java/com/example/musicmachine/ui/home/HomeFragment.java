@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.musicmachine.LyricsSearch;
 import com.example.musicmachine.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,14 +47,13 @@ public class HomeFragment extends Fragment
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
+       homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = view.findViewById(R.id.text_home);
         homeViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+
             }
         });
 
@@ -121,12 +122,32 @@ public class HomeFragment extends Fragment
                 {
                     String searchQuery = textMatchList.get(0);
 
-                    textViewResult.setText(searchQuery);
+//                    textViewResult.setText(searchQuery);
+                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+                    StrictMode.setThreadPolicy(policy);
+                    LyricsSearch ls = new LyricsSearch();
+                    try {
+                        String res = ls.MatchSongByLyrics("when i find myself in times of trouble");
+                        textViewResult.setText(res);
+
+                    }catch(Exception e){
+                        Toast toast = Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG);
+                        toast.show();
+                    }
 
                 }
                 // Result code for various error.
             }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public static void main(String[] args) {
+        LyricsSearch ls = new LyricsSearch();
+        try {
+            String res = ls.MatchSongByLyrics("when i find myself in times of trouble");
+            System.out.print(res);
+        }catch(Exception e){}
     }
 
 }
