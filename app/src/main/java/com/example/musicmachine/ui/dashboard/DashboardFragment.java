@@ -75,6 +75,7 @@ ListView listViewHistory;
         listViewHistory.setClickable(true);
         listViewHistory.setOnItemClickListener(this);
 
+
         return view;
     }
 
@@ -106,9 +107,9 @@ ListView listViewHistory;
                 }
                 Collections.reverse(arrayList);
 
-
-                arrayAdapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, arrayList);
-                listViewHistory.setAdapter(arrayAdapter);
+            if(getContext()!=null && arrayAdapter != null){
+                arrayAdapter = new ArrayAdapter(getContext(),android.R.layout.simple_list_item_1, arrayList);
+                listViewHistory.setAdapter(arrayAdapter);}
 
             }
 
