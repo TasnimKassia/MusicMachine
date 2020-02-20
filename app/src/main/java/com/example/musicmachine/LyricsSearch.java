@@ -19,21 +19,21 @@ public class LyricsSearch {
     public String MatchSongByLyrics(String lyric) throws MusixMatchException {
         List<Track> tracks = musixMatch.searchTracks( lyric, "", "", 1, 1, true);
 //        for testing purposes
-        for (Track trk : tracks) {
-            TrackData trkData = trk.getTrack();
-            int trackID = trkData.getTrackId();
-            Lyrics lyrics = musixMatch.getLyrics(trackID);
-
-            System.out.println("Title : "       + trkData.getTrackName());
-            System.out.println("Album Name : "  + trkData.getAlbumName());
-             System.out.println("Artist Name : " + trkData.getArtistName());
-            System.out.println();
-
-            System.out.println("Lyrics ID       : "     + lyrics.getLyricsId());
-            System.out.println("Lyrics Language : "     + lyrics.getLyricsLang());
-            System.out.println("Lyrics Body     : "     + lyrics.getLyricsBody());
-
-        }
+//        for (Track trk : tracks) {
+//            TrackData trkData = trk.getTrack();
+//            int trackID = trkData.getTrackId();
+//            Lyrics lyrics = musixMatch.getLyrics(trackID);
+//
+//            System.out.println("Title : "       + trkData.getTrackName());
+//            System.out.println("Album Name : "  + trkData.getAlbumName());
+//             System.out.println("Artist Name : " + trkData.getArtistName());
+//            System.out.println();
+//
+//            System.out.println("Lyrics ID       : "     + lyrics.getLyricsId());
+//            System.out.println("Lyrics Language : "     + lyrics.getLyricsLang());
+//            System.out.println("Lyrics Body     : "     + lyrics.getLyricsBody());
+//
+//        }
         Track trk = tracks.get(0);
         TrackData trkData = trk.getTrack();
 
@@ -41,10 +41,12 @@ public class LyricsSearch {
     }
 
 
+
+
     public static void main(String[] args) {
         LyricsSearch ls = new LyricsSearch();
         try {
-            System.out.println(ls.MatchSongByLyrics(""));
+            System.out.println(ls.MatchSongByLyrics("happy birthday to you"));
         }catch(Exception e){}
     }
 }

@@ -31,16 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    public void setTextLyrics(){
-////        View view = findViewById(id);
-////        TextView textView =  (TextView) view;
-//        LyricsSearch lyricsSearch = new LyricsSearch();
-//        try{
-////            textView.setText(lyricsSearch.MatchByLyrics("when I find myself in times of trouble mother mary comes to me singing words").get(0).toString());
-//            System.out.print(lyricsSearch.MatchByLyrics("when I find myself in times of trouble mother mary comes to me singing words").get(0).toString());
-//        }catch (Exception e){}
-//
-//    }
 
 
 }

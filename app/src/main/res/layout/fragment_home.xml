@@ -34,7 +34,8 @@
             <TextView
                 android:id="@+id/textViewResult"
                 android:layout_width="match_parent"
-                android:layout_height="599dp" />
+                android:layout_height="match_parent"
+                tools:text="@string/textview" />
         </LinearLayout>
     </ScrollView>
 
