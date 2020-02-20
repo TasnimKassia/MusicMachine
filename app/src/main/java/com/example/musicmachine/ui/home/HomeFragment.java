@@ -21,11 +21,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.musicmachine.LyricsSearch;
 import com.example.musicmachine.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.ArrayList;
@@ -42,8 +39,7 @@ public class HomeFragment extends Fragment
     private TextView textViewResult;
 
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference conditionRef = mRootRef.child("history");
-
+    DatabaseReference mHistoryRef = mRootRef.child("history");
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -130,6 +126,7 @@ public class HomeFragment extends Fragment
                     try {
                         String res = ls.MatchSongByLyrics(searchQuery);
                         textViewResult.setText(res);
+                        sendTitleToDB(res);
                     }catch(Exception e){
                         Toast toast = Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG);
                         toast.show();
@@ -141,6 +138,12 @@ public class HomeFragment extends Fragment
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void sendTitleToDB(String s) {
+        long id = System.currentTimeMillis() / 1000L;
+       Toast.makeText(getContext(), "dfbgfsf", Toast.LENGTH_SHORT);
+        mHistoryRef.child(id+"").setValue(s.substring(7,s.indexOf("Lyrics:")));
+
+    }
     public static void main(String[] args) {
         LyricsSearch ls = new LyricsSearch();
         try {
