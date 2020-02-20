@@ -38,8 +38,11 @@ public class LyricsSearch {
         TrackData trkData = trk.getTrack();
         int trackID = trkData.getTrackId();
         Lyrics lyrics = musixMatch.getLyrics(trackID);
-        String output = "Title : "+ trkData.getTrackName() + "\nLyrics:\n"+ lyrics.getLyricsBody();
 
+        String output = "Title: "+ trkData.getTrackName();
+        if(!lyrics.getLyricsBody().isEmpty()){
+            output += "\n\nLyrics:\n"+ lyrics.getLyricsBody();
+        }
         return output;
     }
 
