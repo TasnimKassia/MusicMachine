@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "543735141049",
+    "firebase_url": "https://music-machine-6fd6c.firebaseio.com",
+    "project_id": "music-machine-6fd6c",
+    "storage_bucket": "music-machine-6fd6c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:543735141049:android:e9354749c6ad23915d4168",
+        "android_client_info": {
+          "package_name": "com.example.musicmachine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "543735141049-mon1ncab83p6961eqevft3mn4bs9ni2a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAai4SpwnnuAtz5ilhzHGo30YRb6RqaZe4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "543735141049-mon1ncab83p6961eqevft3mn4bs9ni2a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

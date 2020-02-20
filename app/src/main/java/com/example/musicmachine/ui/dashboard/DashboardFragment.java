@@ -1,20 +1,27 @@
 package com.example.musicmachine.ui.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.musicmachine.R;
+import com.example.musicmachine.ui.home.HomeFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import com.google.firebase.database.DataSnapshot;
@@ -28,7 +35,8 @@ import java.util.Collections;
 import java.util.HashMap;
 
 
-public class DashboardFragment extends Fragment {
+public class DashboardFragment extends Fragment  implements AdapterView.OnItemClickListener
+{
 
     private DashboardViewModel dashboardViewModel;
 
@@ -37,6 +45,7 @@ ListView listViewHistory;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mHistoryRef = mRootRef.child("history");
     ArrayAdapter arrayAdapter;
+    HashMap<String, Object> hashMap;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         dashboardViewModel =
@@ -54,16 +63,30 @@ ListView listViewHistory;
 
         listViewHistory = view.findViewById(R.id.listViewHistory);
 
-//        ArrayList<String> arrayList = new ArrayList<>();
-//        arrayList.add("Song name1");
-//        arrayList.add("Song name1");
-//        arrayList.add("Song name1");
-//        arrayList.add("Song name1");
-//        arrayList.add("Song name1");
-//        arrayList.add("Song name1");
-//        ArrayAdapter arrayAdapter = new ArrayAdapter(view.getContext(),android.R.layout.simple_list_item_1, arrayList);
-//listViewHistory.setAdapter(arrayAdapter);
-         return view;
+//        listViewHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//               // String value = (String)new ArrayList<>(hashMap.values()).get(position);
+//
+//                Toast.makeText(getContext(), "song name: ", Toast.LENGTH_SHORT);
+//            }
+//        });
+        listViewHistory.setClickable(true);
+        listViewHistory.setOnItemClickListener(this);
+
+        return view;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
+        Toast.makeText(getActivity(), "Song Name: " + arrayList.get(position), Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(Intent.ACTION_SEARCH);
+        intent.setPackage("com.google.android.youtube");
+        intent.putExtra("query",  arrayList.get(position));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override
@@ -76,7 +99,7 @@ ListView listViewHistory;
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
                 arrayList.clear();
-                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap = new HashMap<>();
                 for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
                     hashMap.put(childSnapshot.getKey(), childSnapshot.getValue());
                     arrayList.add(childSnapshot.getValue().toString());
@@ -84,14 +107,7 @@ ListView listViewHistory;
                 Collections.reverse(arrayList);
 
 
-//                ArrayList<String> arrayList = new ArrayList<>();
-//                arrayList.add("Song name1");
-//                arrayList.add("Song name1");
-//                arrayList.add("Song name1");
-//                arrayList.add("Song name1");
-//                arrayList.add("Song name1");
-//                arrayList.add("Song name1");
-                arrayAdapter = new ArrayAdapter(getContext(),android.R.layout.simple_list_item_1, arrayList);
+                arrayAdapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, arrayList);
                 listViewHistory.setAdapter(arrayAdapter);
 
             }

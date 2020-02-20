@@ -24,16 +24,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-public class HomeFragment extends Fragment implements View.OnClickListener
+public class HomeFragment extends Fragment
 {
 
     private HomeViewModel homeViewModel;
@@ -44,7 +42,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference conditionRef = mRootRef.child("history");
 
-    private DocumentReference mDocRef = FirebaseFirestore.getInstance().document("historyCollection/historyDoc");
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -87,41 +85,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener
     @Override
     public void onStart() {
         super.onStart();
-        conditionRef.addValueEventListener(new ValueEventListener()
-        {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-               String s =  dataSnapshot.getValue(String.class);
-               // set text to edit text!!!!!
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError)
-            {
-
-            }
-        });
     }
 
 
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.imageButtonSpeak:
-
-                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
-                intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getClass().getPackage().getName());
-
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
-
-                startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
-
-                break;
-        }
-    }
 
     public void checkVoiceRecognition()
     {
